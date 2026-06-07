@@ -182,16 +182,17 @@ If you use QEC Emulator in your research, please cite:
 
 ```bibtex
 @software{qec_emulator_2026,
-  author    = {Author, Your},
+  author    = {AlDaajeh, Saleh H.},
   title     = {{QEC Emulator}: Reproducible qLDPC benchmark suite
                with hash-anchored provenance},
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},
-  doi       = {10.5281/zenodo.XXXXXXX},
-  url       = {https://doi.org/10.5281/zenodo.XXXXXXX}
+  doi       = {10.5281/zenodo.20574329},
+  url       = {https://doi:10.5281/zenodo.20574329}
 }
 ```
+
 
 A JOSS software paper is under review at
 [joss.theoj.org](https://joss.theoj.org/papers/XXXXXXX).
