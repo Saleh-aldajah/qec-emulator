@@ -8,11 +8,11 @@ tags:
   - reproducibility
   - benchmark
 authors:
-  - name: Your Name
-    orcid: 0000-0000-0000-0000
-    affiliation: 1
+  - name: Prof. Saleh H. AlDaajeh
+    orcid: 0000-0001-7810-9290
+    affiliation: Independent Research - Information systems and security
 affiliations:
-  - name: Your Institution
+  - name: Independent Research - Information systems and security
     index: 1
 date: 06 June 2026
 bibliography: paper.bib
