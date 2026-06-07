@@ -7,8 +7,8 @@ title: "QEC Emulator: Reproducible qLDPC benchmark suite with hash-anchored prov
 version: 1.0.0
 date-released: "2026-06-06"
 license: MIT
-repository-code: "https://github.com/YOUR_USERNAME/qec-emulator"
-doi: 10.5281/zenodo.XXXXXXX
+repository-code: "https://github.com/Saleh-aldajah/qec-emulator"
+doi: doi:10.5281/zenodo.20574329
 url: "https://qec-emulator.readthedocs.io"
 abstract: >
   QEC Emulator provides reproducible Monte Carlo benchmarks for
@@ -29,18 +29,18 @@ keywords:
   - reproducibility
   - provenance
 authors:
-  - family-names: "Author"
-    given-names: "Your"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-    affiliation: "Your Institution"
+  - family-names: "AlDaajeh"
+    given-names: "Saleh H."
+    orcid: "https://orcid.org/0000-0001-7810-9290"
+    affiliation: "Independent Research - Information systems and security"
 preferred-citation:
   type: software
   title: "QEC Emulator: Reproducible qLDPC benchmark suite"
   authors:
-    - family-names: "Author"
-      given-names: "Your"
-      orcid: "https://orcid.org/0000-0000-0000-0000"
-  doi: 10.5281/zenodo.XXXXXXX
+    - family-names: "AlDaajeh"
+      given-names: "Saleh H."
+      orcid: "https://orcid.org/0000-0001-7810-9290"
+  doi: doi:10.5281/zenodo.20574329
   version: 1.0.0
   date-released: "2026-06-06"
-  url: "https://doi.org/10.5281/zenodo.XXXXXXX"
+  url: "https://doi:10.5281/zenodo.20574329"
