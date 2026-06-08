@@ -9,6 +9,21 @@ on:
     types: [published]
 
 jobs:
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: >
+          ruff check qec_emulator/
+          --ignore E501,E701,E702,E711,E712,E721,E722,E731,E741,
+          F401,F403,F405,F811,F821,F841,W291,W293
+
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
@@ -16,46 +31,51 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.11", "3.12"]
-
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install core dependencies (fast, no compilation)
         run: |
-          pip install -e ".[dev]"
-          pip install ldpc pymatching stim networkx matplotlib \
-                      fastapi uvicorn typer rich pyyaml httpx \
-                      pytest-cov || true
+          pip install numpy pytest pytest-cov
+          pip install fastapi uvicorn typer rich pyyaml httpx networkx matplotlib stim
+          pip install -e . --no-deps
 
-      - name: Run tests
-        run: pytest tests/ -v --tb=short --ignore=tests/test_all.py || true
+      - name: Run fast tests (no ldpc/pymatching required)
+        run: |
+          pytest tests/ -v --tb=short \
+            -k "not bposd and not mwpm and not BPOSD and not MWPM and not run_bposd" \
+            --timeout=120
+        continue-on-error: false
 
-      - name: Run full test suite
-        run: pytest tests/ -q --tb=short || true
-
-  lint:
-    name: Lint
+  test-decoders:
+    name: Decoder tests (optional)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install ruff
-        run: pip install ruff
-      - name: Run ruff
-        run: ruff check qec_emulator/ --ignore E501,E701,E702,E711,E712,E721,E722,E731,E741,F401,F403,F405,F811,F821,F841,W291,W293
 
-  zenodo-check:
+      - name: Install with decoders
+        run: |
+          pip install numpy pytest
+          pip install fastapi uvicorn typer rich pyyaml httpx networkx matplotlib stim
+          pip install ldpc pymatching --timeout 300 || echo "Decoder install failed - skipping"
+          pip install -e . --no-deps
+
+      - name: Run all tests including decoders
+        run: pytest tests/ -v --tb=short --timeout=300
+        continue-on-error: true
+
+  validate-citation:
     name: Validate CITATION.cff
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - run: pip install cffconvert
       - run: cffconvert --validate -i CITATION.cff
