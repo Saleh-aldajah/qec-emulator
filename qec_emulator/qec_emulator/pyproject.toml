@@ -1,0 +1,63 @@
+[build-system]
+requires      = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name        = "qec-emulator"
+version     = "2.0.0"
+description = "Reproducible qLDPC benchmark suite with hash-anchored provenance — BB72/BB144 bivariate bicycle codes"
+readme      = "README.md"
+license     = {text = "MIT"}
+requires-python = ">=3.9"
+
+authors = [
+    {name = "Dr. Saleh H. AlDaajeh", email = "S.aldaajeh@gmail.com"},
+]
+
+keywords = [
+    "quantum error correction", "qLDPC", "bivariate bicycle code",
+    "BB72", "BB144", "benchmark", "reproducibility", "provenance",
+    "Monte Carlo", "decoder",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+decoders = ["ldpc>=0.1.54", "pymatching>=2.1.0"]
+dev      = ["pytest>=7.0", "pytest-cov>=4.0", "ruff"]
+docs     = ["mkdocs>=1.5", "mkdocs-material>=9.0", "mkdocstrings[python]>=0.24"]
+all      = ["qec-emulator[decoders,dev,docs]"]
+
+[project.urls]
+Homepage      = "https://github.com/saldaajeh/qec-emulator"
+Documentation = "https://qec-emulator.readthedocs.io"
+Repository    = "https://github.com/saldaajeh/qec-emulator"
+"Bug Tracker" = "https://github.com/saldaajeh/qec-emulator/issues"
+Zenodo        = "https://doi.org/10.5281/zenodo.20574329"
+
+[tool.setuptools.packages.find]
+where   = ["."]
+include = ["qec_emulator*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
+
+[tool.ruff]
+line-length    = 100
+target-version = "py39"
+
+[project.scripts]
+"qec-emulator" = "qec_emulator.cli:main"
