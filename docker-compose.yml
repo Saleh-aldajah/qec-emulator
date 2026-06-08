@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  qec-emulator:
+    build: .
+    ports:
+      - "8765:8765"
+    environment:
+      - QEC_WORKERS=4
+      - QEC_PORT=8765
+    volumes:
+      - ./results:/app/results
+    restart: unless-stopped
+
+  # Optional: run a sweep job and exit
+  qec-sweep:
+    build: .
+    command: >
+      qec-emulator sweep
+        --code BB72 --code BB144
+        --decoder bposd
+        --trials 5000
+        --output /app/results/sweep
+    volumes:
+      - ./results:/app/results
+    profiles: ["sweep"]
