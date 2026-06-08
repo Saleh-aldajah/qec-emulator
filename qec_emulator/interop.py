@@ -10,11 +10,10 @@ Provides adapters for:
 Author: Dr. Saleh H. AlDaajeh  ORCID: 0000-0001-7810-9290
 """
 from __future__ import annotations
-import json
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict
 import numpy as np
 
-from .codes import BBCode, gf2_rank
+from .codes import BBCode
 
 
 # ---------------------------------------------------------------------------
@@ -161,7 +160,7 @@ def to_stim_circuit(code: BBCode, p: float) -> str:
 # NetworkX interop
 # ---------------------------------------------------------------------------
 
-def to_networkx_tanner(code: BBCode, which: str = "X") -> "networkx.Graph":
+def to_networkx_tanner(code: BBCode, which: str = "X") -> "networkx.Graph":  # noqa: F821
     """
     Build the Tanner graph of the BB code as a NetworkX bipartite graph.
 
@@ -197,7 +196,7 @@ def to_networkx_tanner(code: BBCode, which: str = "X") -> "networkx.Graph":
     return G
 
 
-def to_networkx_factor(code: BBCode, which: str = "X") -> "networkx.Graph":
+def to_networkx_factor(code: BBCode, which: str = "X") -> "networkx.Graph":  # noqa: F821
     """
     Build the factor graph used by PyMatching: only qubit nodes,
     with edges between pairs of checks that share a qubit.
@@ -234,7 +233,7 @@ def to_networkx_factor(code: BBCode, which: str = "X") -> "networkx.Graph":
     return G
 
 
-def networkx_to_pymatching(G: "networkx.Graph", p: float = 0.01) -> Any:
+def networkx_to_pymatching(G: "networkx.Graph", p: float = 0.01) -> Any:  # noqa: F821
     """
     Convert a NetworkX factor graph to a PyMatching matching object.
 
@@ -254,7 +253,6 @@ def networkx_to_pymatching(G: "networkx.Graph", p: float = 0.01) -> Any:
 
     m = pymatching.Matching()
     try:
-        import networkx as nx
         for u, v, data in G.edges(data=True):
             if u == "boundary" or v == "boundary":
                 node = v if u == "boundary" else u
@@ -301,7 +299,7 @@ def to_alist(H: np.ndarray) -> str:
 
 def from_alist(text: str) -> np.ndarray:
     """Parse alist format and return binary check matrix."""
-    lines = [l.strip() for l in text.strip().split('\n') if l.strip()]
+    lines = [ln.strip() for ln in text.strip().split('\n') if ln.strip()]
     n, m   = map(int, lines[0].split())
     max_cw, max_rw = map(int, lines[1].split())
     # skip weight lines
@@ -343,7 +341,6 @@ def interop_summary(code: BBCode) -> Dict:
     """Return a dict summarising available interop paths for a code."""
     ok_tests = {}
     try:
-        import networkx
         to_networkx_tanner(code, "X")
         ok_tests["networkx_tanner"] = True
     except Exception as e:

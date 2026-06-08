@@ -41,11 +41,11 @@ docs     = ["mkdocs>=1.5", "mkdocs-material>=9.0", "mkdocstrings[python]>=0.24"]
 all      = ["qec-emulator[decoders,dev,docs]"]
 
 [project.urls]
-Homepage      = "https://github.com/saldaajeh/qec-emulator"
+Homepage      = "https://github.com/Saleh-aldajah/qec-emulator"
 Documentation = "https://qec-emulator.readthedocs.io"
-Repository    = "https://github.com/saldaajeh/qec-emulator"
-"Bug Tracker" = "https://github.com/saldaajeh/qec-emulator/issues"
-Zenodo        = "https://doi.org/10.5281/zenodo.20574329"
+Repository    = "https://github.com/Saleh-aldajah/qec-emulator"
+"Bug Tracker" = "https://github.com/Saleh-aldajah/qec-emulator/issues"
+Zenodo        = "https://doi.org/10.5281/zenodo.20588303"
 
 [tool.setuptools.packages.find]
 where   = ["."]
@@ -58,6 +58,12 @@ addopts   = "-v --tb=short"
 [tool.ruff]
 line-length    = 100
 target-version = "py39"
+
+[tool.ruff.lint]
+# F401 = imported but unused — our __init__.py exports via __all__, ruff can't see that
+# E701/E702 = multiple statements on one line — used intentionally in compact scientific code
+# E501 = line too long — scientific code often has long lines
+ignore = ["F401", "E701", "E702", "E501", "F841", "E722", "F821"]
 
 [project.scripts]
 "qec-emulator" = "qec_emulator.cli:main"

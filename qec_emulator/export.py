@@ -7,10 +7,13 @@ Results are represented as lists of dicts and can be round-tripped.
 Author: Dr. Saleh H. AlDaajeh  ORCID: 0000-0001-7810-9290
 """
 from __future__ import annotations
-import csv, json, math, hashlib
+import csv
+import json
+import math
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
 
 def _wilson95(k: int, n: int):
@@ -81,7 +84,8 @@ class ResultSet:
     def to_hdf5(self, path: Union[str, Path]) -> Path:
         """Export to HDF5 if h5py is installed; otherwise raises ImportError."""
         try:
-            import h5py, numpy as np
+            import h5py
+            import numpy as np
         except ImportError:
             raise ImportError("h5py is required for HDF5 export: pip install h5py")
         path = Path(path)
@@ -174,8 +178,12 @@ class ResultSet:
 
 def _try_num(v: str) -> Any:
     """Attempt numeric coercion; fall back to string."""
-    try:    return int(v)
-    except: pass
-    try:    return float(v)
-    except: pass
+    try:
+        return int(v)
+    except (ValueError, TypeError):
+        pass
+    try:
+        return float(v)
+    except (ValueError, TypeError):
+        pass
     return v
