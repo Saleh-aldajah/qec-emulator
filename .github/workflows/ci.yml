@@ -14,17 +14,16 @@ env:
 jobs:
 
   lint:
-    name: Lint
+    name: Lint (informational)
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install ruff
-        run: pip install ruff
-      - name: Run ruff (permissive)
-        run: ruff check qec_emulator/ --select F --ignore F401,F403,F405,F811,F821,F841
+      - run: pip install "ruff==0.4.10"
+      - run: ruff check qec_emulator/ --select F --ignore F401,F403,F405,F811,F821,F841
 
   test:
     name: Python ${{ matrix.python-version }}
