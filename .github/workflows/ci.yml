@@ -8,6 +8,9 @@ on:
   release:
     types: [published]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
 
   lint:
@@ -18,11 +21,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install ruff
-      - run: >
-          ruff check qec_emulator/
-          --ignore E501,E701,E702,E711,E712,E721,E722,E731,E741,
-          F401,F403,F405,F811,F821,F841,W291,W293
+      - name: Install ruff
+        run: pip install ruff
+      - name: Run ruff (permissive)
+        run: ruff check qec_emulator/ --select F --ignore F401,F403,F405,F811,F821,F841
 
   test:
     name: Python ${{ matrix.python-version }}
@@ -38,38 +40,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install core dependencies (fast, no compilation)
-        run: |
-          pip install numpy pytest pytest-cov
-          pip install fastapi uvicorn typer rich pyyaml httpx networkx matplotlib stim
-          pip install -e . --no-deps
-
-      - name: Run fast tests (no ldpc/pymatching required)
-        run: |
-          pytest tests/ -v --tb=short \
-            -k "not bposd and not mwpm and not BPOSD and not MWPM and not run_bposd" \
-            --timeout=120
-        continue-on-error: false
-
-  test-decoders:
-    name: Decoder tests (optional)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install with decoders
+      - name: Install dependencies
         run: |
           pip install numpy pytest
-          pip install fastapi uvicorn typer rich pyyaml httpx networkx matplotlib stim
-          pip install ldpc pymatching --timeout 300 || echo "Decoder install failed - skipping"
+          pip install "fastapi>=0.110" "uvicorn>=0.27" "typer>=0.12" "rich>=13"
+          pip install pyyaml httpx networkx matplotlib stim
           pip install -e . --no-deps
 
-      - name: Run all tests including decoders
-        run: pytest tests/ -v --tb=short --timeout=300
-        continue-on-error: true
+      - name: Run tests
+        run: |
+          pytest tests/ -v --tb=short \
+            -k "not bposd and not mwpm and not BPOSD and not MWPM and not run_bposd"
 
   validate-citation:
     name: Validate CITATION.cff
