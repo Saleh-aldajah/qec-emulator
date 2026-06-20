@@ -24,13 +24,13 @@ authors:
 
 &#x20;   orcid: 0000-0001-7810-9290
 
-&#x20;   affiliation: 1
+&#x20;   affiliation: "1"
 
 &#x20; - name: Saud Aldajah
 
 &#x20;   orcid: 0000-0001-6061-1004
 
-&#x20;   affiliation: 2
+&#x20;   affiliation: "2"
 
 affiliations:
 
