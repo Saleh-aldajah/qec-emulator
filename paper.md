@@ -24,8 +24,6 @@ authors:
 
 &#x20;   orcid: 0000-0001-7810-9290
 
-&#x20;   corresponding: true
-
 &#x20;   affiliation: 1
 
 &#x20; - name: Saud Aldajah
