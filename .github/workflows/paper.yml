@@ -1,0 +1,21 @@
+name: JOSS paper compilation check
+
+on: [push, pull_request]
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    name: Paper PDF
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build paper PDF
+        uses: openjournals/openjournals-draft-action@master
+        with:
+          journal: joss
+          paper-path: paper.md
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper
+          path: paper.pdf
