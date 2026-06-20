@@ -176,7 +176,7 @@ circuit-level, hardware), benchmark drivers (`benchmark.py`: parameter sweeps,
 
 repeated-cycle runs, threshold scans), and provenance (`provenance.py`).
 
-Version 2.0 adds YAML/JSON configuration, parallel job scheduling, multi-format
+Version 3.0 adds YAML/JSON configuration, parallel job scheduling, multi-format
 
 export, an interoperability module (Stim/DEM, NetworkX Tanner graphs,
 
